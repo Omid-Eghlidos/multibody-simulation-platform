@@ -1,4 +1,4 @@
-# Multiobody Simulation Platform Nano (Version 0.2.0)
+# Multiobody Simulation Platform Nano (Version 0.3.0)
 
 The tiniest possible mockup of the simulation system. A professionalized refactor of Sedaro Nano:
 - **Backend**: Python FastAPI service with modular architecture (controllers, services, processors, models).
