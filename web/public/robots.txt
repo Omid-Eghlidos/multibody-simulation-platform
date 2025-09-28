@@ -1,0 +1,6 @@
+# robots.txt for Multibody Simulation Platform
+# Allow all crawlers to index the site
+# https://www.robotstxt.org/robotstxt.html
+
+User-agent: *
+Disallow:
