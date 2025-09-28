@@ -43,20 +43,21 @@ This project demonstrates how to take a research prototype and turn it into a pr
 
 ## 🚀 Quick Start
 
-```
+```bash
 # Clone repo
 git clone <your-repo-url>
 cd simulations
 
-# Start backend (FastAPI + SQLite)
-./run.sh
+# Start and test backend (FastAPI + SQLite)
+./run_backend.sh
+./test_backend.sh
 
 # Start frontend (React/TS)
 cd web
 npm install
 npm start
 ```
-- Backend available at http://localhost:8000
+- Backend available at http://localhost:8000//api/v1/simulation/
 - Frontend available at http://localhost:3030
 
 ## 📸 Example Output
