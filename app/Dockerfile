@@ -3,16 +3,13 @@
 # -----------------------------
 FROM rust:1.84 AS builder
 
-# Set working directory inside container
+# Create and set working directory inside container and copy Rust quey source code
+RUN mkdir /queries
 WORKDIR /queries
-
-# Copy the Rust query engine source code
 COPY queries .
 
-# Clean previous builds (optional but keeps image consistent)
+# Clean previous builds and build Rust project in release mode
 RUN cargo clean
-
-# Build Rust project in release mode (optimized)
 RUN cargo build --release
 
 # -----------------------------
@@ -20,30 +17,27 @@ RUN cargo build --release
 # -----------------------------
 FROM python:3.12-slim AS backend
 
-# Install system dependencies (if needed for Python packages)
-# Example: libpq-dev for PostgreSQL, build-essential for compiling deps
+# Install system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
  && rm -rf /var/lib/apt/lists/*
 
 # Create working directory for backend
-WORKDIR /app
+RUN mkdir workspace/
+WORKDIR /workspace
 
-# Copy Python requirements and install them first (for layer caching)
-COPY app/requirements.txt .
+# Copy Python requirements and install them first 
+COPY app/requirements.txt ./requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend source code
-COPY app .
-
-# Create directory for Rust binary
-RUN mkdir -p /queries/target/release
+COPY app ./app
 
 # Copy compiled Rust binary from builder stage
-COPY --from=builder /queries/target/release/sedaro-nano-queries /queries/target/release/sedaro-nano-queries
+RUN mkdir -p ./queries/target/release
+COPY --from=builder /queries/target/release/sedaro-nano-queries ./queries/target/release/sedaro-nano-queries
 
 # Expose FastAPI default port
 EXPOSE 8000
 
 # Run backend with Uvicorn (production-ready ASGI server for FastAPI)
-CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

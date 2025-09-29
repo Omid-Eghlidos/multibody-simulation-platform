@@ -6,9 +6,9 @@ for simulation tasks.
 """
 
 import warnings
-from typing import Any
 import logging
 from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
@@ -29,7 +29,7 @@ logger = logging.getLogger('uvicorn')
 
 # Define lifespan context manager
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> Any:
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """
     Lifespan context manager for FastAPI.
     Runs once on startup and once on shutdown.

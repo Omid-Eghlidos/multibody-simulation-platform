@@ -63,7 +63,7 @@ class SimulationService:
             return results
         else:
             # If not found, run a new simulation
-            results: List[Tuple[float, float, Dict[str, Any]]] = self.processor.run(params)
+            results = self.processor.run(params)
             self._save_to_db(params, params_hash, results)
         return results
 

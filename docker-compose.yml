@@ -3,10 +3,7 @@ services:
     container_name: web
     build: ./web
     ports:
-      - '3030:3030'
-    volumes:
-      - ./web:/web
-      - /web/node_modules
+      - '3030:80'  # host:container
 
   app:
     container_name: app
@@ -16,6 +13,5 @@ services:
     ports:
       - '8000:8000'
     volumes:
-      - ./app:/app
-      - ./data:/data 
-    
+      - ./app:/app/
+      - ./data:/data/

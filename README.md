@@ -43,6 +43,8 @@ This project demonstrates how to take a research prototype and turn it into a pr
 
 ## 🚀 Quick Start
 
+### Run Backend and Frontend Separately
+
 ```bash
 # Clone repo
 git clone <your-repo-url>
@@ -59,6 +61,12 @@ npm start
 ```
 - Backend available at http://localhost:8000//api/v1/simulation/
 - Frontend available at http://localhost:3030
+
+### Run via Docker
+
+```bash
+docker-compose up --build
+```
 
 ## 📸 Example Output
 
