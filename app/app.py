@@ -6,15 +6,16 @@ for simulation tasks.
 """
 
 import warnings
-from typing import Any
 import logging
 from contextlib import asynccontextmanager
+from collections.abc import AsyncIterator
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from app.__version__ import __version__
 from app.config.settings import Settings
 from app.controllers.simulation_controller import simulation_router
+from app.controllers.metrics_controller import metrics_router
 from app.clients.database import Base, engine
 
 # Suppress unnecessary warnings
@@ -29,7 +30,7 @@ logger = logging.getLogger('uvicorn')
 
 # Define lifespan context manager
 @asynccontextmanager
-async def lifespan(app: FastAPI) -> Any:
+async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     """
     Lifespan context manager for FastAPI.
     Runs once on startup and once on shutdown.
@@ -53,5 +54,6 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-# Register simulation routes
+# Register simulation and metrics routes
 app.include_router(simulation_router, prefix='/api/v1/simulation', tags=['simulation'])
+app.include_router(metrics_router, tags=['metrics'])

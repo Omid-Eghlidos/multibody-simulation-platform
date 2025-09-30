@@ -1,4 +1,4 @@
-# Multiobody Simulation Platform Nano (Version 0.1.0)
+# Multiobody Simulation Platform Nano (Version 1.0.0)
 
 The tiniest possible mockup of the simulation system. A professionalized refactor of Sedaro Nano:
 - **Backend**: Python FastAPI service with modular architecture (controllers, services, processors, models).
@@ -43,21 +43,30 @@ This project demonstrates how to take a research prototype and turn it into a pr
 
 ## 🚀 Quick Start
 
-```
+### Run Backend and Frontend Separately
+
+```bash
 # Clone repo
 git clone <your-repo-url>
 cd simulations
 
-# Start backend (FastAPI + SQLite)
-./run.sh
+# Start and test backend (FastAPI + SQLite)
+./run_backend.sh
+./test_backend.sh
 
 # Start frontend (React/TS)
 cd web
 npm install
 npm start
 ```
-- Backend available at http://localhost:8000
+- Backend available at http://localhost:8000//api/v1/simulation/
 - Frontend available at http://localhost:3030
+
+### Run via Docker
+
+```bash
+docker-compose up --build
+```
 
 ## 📸 Example Output
 

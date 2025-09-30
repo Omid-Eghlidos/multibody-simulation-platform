@@ -6,7 +6,8 @@ Handles simulation requests from the frontend and delegates processing
 to the SimulatorService.
 """
 
-from typing import Dict, Any
+import traceback
+from typing import List, Tuple, Dict, Any
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from app.utilities.messages.error_messages import ErrorMessages
@@ -53,11 +54,12 @@ async def run_simulation(params: Dict[str, Any]) -> JSONResponse:
         Simulation results as JSON data.
     """
     try:
-        result: Dict[str, Any] = simulation_service.run(params)
+        result: List[Tuple[float, float, Dict[str, Any]]] = simulation_service.run(params)
         return JSONResponse(content=result, status_code=200)
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=ErrorMessages.RUN_FAILED)
 
 
@@ -72,8 +74,9 @@ async def get_latest_simulation() -> JSONResponse:
         JSON data of the most recent simulation, or empty dict if none exists.
     """
     try:
-        result: Dict[str, Any] = simulation_service.get_latest()
+        result: List[Tuple[float, float, Dict[str, Any]]] = simulation_service.get_latest()
         return JSONResponse(content=result, status_code=200)
     except Exception:
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=ErrorMessages.LATEST_FAILED)
 
