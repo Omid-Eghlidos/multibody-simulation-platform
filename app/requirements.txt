@@ -1,6 +1,7 @@
 # Web framework
 fastapi~=0.115
 uvicorn[standard]~=0.30  # ASGI server for FastAPI
+prometheus-client==0.20.0  # metrics endpoint for observability
 
 # Database / ORM
 sqlalchemy~=2.0

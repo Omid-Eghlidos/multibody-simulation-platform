@@ -12,10 +12,17 @@ Components
 import json
 import hashlib
 from typing import List, Tuple, Dict, Any, Optional
+from prometheus_client import Counter
 from app.utilities.messages.error_messages import ErrorMessages
 from app.processors.simulation_processor import SimulationProcessor
 from app.models.simulation_model import Simulation
 from app.clients.database import SessionLocal
+
+# Define a counter for total simulations run
+simulations_total = Counter(
+    'simulations_total',
+    'Total number of simulations executed'
+)
 
 
 class SimulationService:
@@ -55,6 +62,9 @@ class SimulationService:
         list of tuple
             Simulation history as (low, high, state_dict) records.
         """
+        # Increment Prometheus counter
+        simulations_total.inc()
+
         self._validate_params(params)
         params_hash: str = self._compute_hash(params)
 
